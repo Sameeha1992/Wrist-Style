@@ -1,0 +1,164 @@
+
+
+
+/* Basic Reset */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+font-family: 'Arial', sans-serif;
+background-color: #f9f9f9;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+}
+
+/* Signup Card */
+.signup-card {
+background-color: white;
+border-radius: 10px;
+padding: 40px;
+width: 400px;
+text-align: center;
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.signup-card h1 {
+font-size: 24px;
+margin-bottom: 30px;
+color: #333;
+}
+
+/* Form Fields */
+.signup-card label {
+display: block;
+text-align: left;
+font-size: 14px;
+margin-bottom: 8px;
+color: #555;
+}
+
+.signup-card input {
+width: 100%;
+padding: 15px;
+margin-bottom: 20px;
+border: 1px solid #ddd;
+border-radius: 5px;
+font-size: 16px;
+}
+
+.signup-card input:focus {
+outline: none;
+border-color: #5fa8d3;
+box-shadow: 0 0 5px rgba(95, 168, 211, 0.5);
+}
+
+/* Terms and Conditions */
+.terms {
+display: flex;
+justify-content: left;
+align-items: center;
+margin-bottom: 20px;
+}
+
+.terms input {
+margin-right: 10px;
+}
+
+.terms a {
+color: #333;
+text-decoration: none;
+}
+
+/* Signup Button */
+.signup-btn {
+width: 100%;
+padding: 15px;
+background-color: #4CAF50;
+border: none;
+border-radius: 5px;
+color: white;
+font-size: 16px;
+cursor: pointer;
+margin-bottom: 20px;
+}
+
+.signup-btn:hover {
+background-color: #45a049;
+}
+
+/* Divider */
+.divider {
+position: relative;
+margin: 20px 0;
+text-align: center;
+font-size: 12px;
+color: #999;
+}
+
+.divider::before, .divider::after {
+content: '';
+position: absolute;
+top: 50%;
+width: 40%;
+height: 1px;
+background-color: #ddd;
+}
+
+.divider::before {
+left: 0;
+}
+
+.divider::after {
+right: 0;
+}
+
+/* Social Sign-In Buttons */
+.social-signin {
+display: flex;
+justify-content: space-between;
+}
+
+.google-btn, .apple-btn {
+width: 48%;
+padding: 10px;
+border: none;
+border-radius: 5px;
+background-color: #f0f0f0;
+font-size: 14px;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+color: #555;
+}
+
+.google-btn img, .apple-btn img {
+width: 20px;
+margin-right: 10px;
+}
+
+.google-btn:hover, .apple-btn:hover {
+background-color: #e0e0e0;
+}
+
+/* Sign In Link */
+.signin-text {
+margin-top: 20px;
+font-size: 14px;
+}
+
+.signin-text a {
+color: #007BFF;
+text-decoration: none;
+}
+
+.signin-text a:hover {
+text-decoration: underline;
+}
+
