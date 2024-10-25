@@ -1,11 +1,12 @@
 const express=require("express");
 const app=express();
 const path=require("path");
+const nocache = require("nocache");
 const mongoose=require("mongoose")
 const dotenv=require("dotenv").config();
 const session=require("express-session")
 const userRouter=require("./routes/userRouter")
-
+const passport=require("./config/passport")
 
 const connectDB = async(req,res)=>{
     try {
@@ -21,25 +22,30 @@ const connectDB = async(req,res)=>{
 
 
 connectDB()
+
+
+  app.use(session({
+    secret: process.env.SESSION_SECRET, // You should use a strong secret key
+    resave: false,             // Prevents session resave on each request
+    saveUninitialized: false,  // Only saves session when modified
+    cookie: { secure: false }  // Set to true in production if using HTTPS
+  }));
+
+app.use(passport.initialize());
+app.use(passport.session())
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
-app.use(session({
-    secret:process.env.SESSION_SECRET,
-    resave:false,
-    saveUninitialized:false,
-    cookie:{
-        secure:false,
-        httpOnly:true,
-        maxAge:72*60*60*1000
-    }
-}))
+
+// app.use(cookieSession({
+//     name: 'google-auth-session',
+//     keys: ['key1', 'key2']
+//   }))
 
 
-app.use((req,res,next)=>{
-    res.set("cache-control","no-store")
-    next();
-})
+app.use(nocache());
+
 app.set("view engine","ejs");
 app.set("views", [
     path.join(__dirname, "/views/user"),

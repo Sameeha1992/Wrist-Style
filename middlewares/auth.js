@@ -1,28 +1,31 @@
-const session=require("express-session");
+
+const session=require("express-session")
 
 const isLogin=async(req,res,next)=>{
-    try{
-        if(!req.session.userId){
-            return res.redirect("/")
-        }
-           
-        
-        next();
-    }catch(error){
-        console.log(error.message)
-    }
+    try {
+        console.log("Checking session in isLogin:", req.session.user);
 
+        if(req.session.user) {
+            res.redirect("/home")
+        } else {
+            next();
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
-const isLogout=async(req,res,next)=>{
-    try{
-        if(req.session.userId){
-            return res.redirect("/home")
+const isLogout=async(req,res,next)=>{console.log("Checking session in isLogout:", req.session.user);
+
+    try {
+        if (!req.session.user) {
+            next()
+        } else {
+            res.redirect('/home')
         }
-        next();
-    }catch(error){
-        console.log(error.message)
+    } catch (error) {
+        console.log(error)
     }
 }
 

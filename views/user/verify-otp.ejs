@@ -155,6 +155,7 @@
 
         clearInterval(timerInterval);
         document.getElementById("timerValue").textContent = timer;
+         
 
         timerInterval = setInterval(() => {
             timer--;
@@ -164,6 +165,7 @@
                 document.getElementById("timerValue").classList.add("expired");
                 document.getElementById("timerValue").textContent = "Expired";
                 document.getElementById("otp").disabled = true;
+                
             }
         }, 1000);
     }
@@ -183,7 +185,7 @@
                     timer:1500,
 
                 }).then(()=>{
-                    window.location.href = "/";
+                    window.location.href = "/login";
                 })
                } else{
                 Swal.fire({
@@ -208,7 +210,7 @@
 
     function resendOTP(){
         clearInterval(timerInterval);
-        time=60;
+        timer=60;
         document.getElementById("otp").disabled=false;
         document.getElementById("timerValue").classList.remove("expired");
         startTimer();
