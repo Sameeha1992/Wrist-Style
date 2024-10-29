@@ -1,6 +1,6 @@
 <%-include("../partials/user/header")%>
 <body class="animsition">
-	
+
 	<!-- Header -->
 	<header>
 		<!-- Header desktop -->
@@ -71,12 +71,29 @@
 							<li>
 								<a href="contact.html">Contact</a>
 							</li>
+                              <% if(locals.user){%>
+								<div class="dropdown">
+        
+									<a href="#" class="sign-in-link"><%-locals.user.name-%></a>
+									<div class="dropdown-content">
+										<a href="/userProfile">Profile</a>
+										<a href="/logout">Logout</a>
+
+									</div>
+
+								</div>
+								
+							 <% }else {%>
+
+							 
+
 							<li>
-								<a href="/signup">Signup</a>
+								<a href="/signup" class="sign-in-link">Signup</a>
 							</li>
 							<li>
-								<a href="/login">Login</a>
+								<a href="/login" class="sign-in-link">Login</a>
 							</li>
+							<% } %>
 						</ul>
 					</div>	
 
@@ -302,7 +319,7 @@
 	<section class="section-slide">
 		<div class="wrap-slick1">
 			<div class="slick1">
-				<div class="item-slick1" style="background-image: url(images/slide-01.jpg);">
+				<div class="item-slick1" style="background-image: url(/images/breitling-swiss-luxury-watches-swiss-wrist-watches-luxury-analog-watch-breitling-hd-wallpaper-preview.jpg);">
 					<div class="container h-full">
 						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">

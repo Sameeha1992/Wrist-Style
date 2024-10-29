@@ -10,7 +10,7 @@ const userSchema=new Schema({
     email:{
         type:String,
         required:true,
-        unique:true,
+        unique:false,
     },
 
     phone:{
@@ -23,7 +23,8 @@ const userSchema=new Schema({
 
     googleId:{
         type:String,
-        unique:true
+        unique:true,
+        
     },
     password:{
         type:String,
@@ -43,50 +44,51 @@ const userSchema=new Schema({
         default:false
     },
 
-    // cart:[{
-    //     type:Schema.Types.ObjectId,
-    //     ref:"Cart",
-    // }],
+    cart:[{
+        type:Schema.Types.ObjectId,
+        ref:"Cart",
+    }],
 
-    // wallet:[{
-    //     type:Schema.Types.ObjectId,
-    //     ref:"Wishlist"
-    // }],
-    //    orderHistory:[{
-    //     type:Schema.Types.ObjectId,
-    //     ref:"Order"
-    // }],
-    // createdOn:{
-    //     type:Date,
-    //     default:Date.now,
-    // },
-    // referalCode:{
-    //     type:String,
-    // },
-    // redeemedUsers:[{
-    //     type:Schema.Types.ObjectId,
-    //     ref:"User",
-    // }],
-    // searchHistory:[{
-    //     category:{
-    //         type:Schema.Types.ObjectId,
-    //         ref:"Category",
-    //     },
-    //     brand:{
-    //         type:String,
+    wallet:[{
+        type:Schema.Types.ObjectId,
+        ref:"Wishlist"
+    }],
+       orderHistory:[{
+        type:Schema.Types.ObjectId,
+        ref:"Order"
+    }],
+    createdOn:{
+        type:Date,
+        default:Date.now,
+    },
+    referalCode:{
+        type:String,
+    },
+    redeemedUsers:[{
+        type:Schema.Types.ObjectId,
+        ref:"User",
+    }],
+    searchHistory:[{
+        category:{
+            type:Schema.Types.ObjectId,
+            ref:"Category",
+        },
+        brand:{
+            type:String,
 
-    //     },
-    //     searchOn:{
-    //         type:Date,
-    //         default:Date.now
-    //     }
+        },
+        searchOn:{
+            type:Date,
+            default:Date.now
+        }
 
-    // }]
+    }]
 
 
    
 
 })
+userSchema.index({googleId:1},{unique:true,partialFilterExpression:{googleId:{$exists:true}}});
 
 const User = mongoose.model("User",userSchema);
 module.exports=User;

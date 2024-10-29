@@ -1,31 +1,8 @@
 <%-include("../partials/user/header")%>
 
-    <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="login-container">
-        <div class="image-container">
-            <img src="/images/login pic.jpg" alt="Wrist Style">
-        </div>
-        <div class="login-form">
-            <h1>Welcome to Wrist Style</h1>
-            <form method="post"action="/login">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
-                
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
-                
-                <button type="submit" class="login-button">Login</button>
-                
-                <div class="extra-links">
-                    <a href="#" class="forgot-password">Forgot your password?</a>
-                    <p>Don't have an account? <a href="/signup" class="signup">Sign up</a></p>
-                </div>
-            </form>
-        </div>
-    </div>
-    <style>
+<style>
     * {
         margin: 0;
         padding: 0;
@@ -114,9 +91,78 @@
     .forgot-password:hover, .signup:hover {
         text-decoration: underline;
     }
-</style>    
+</style>  
 
+<body>
+    <div class="login-container">
+        <div class="image-container">
+            <img src="/images/login pic.jpg" alt="Wrist Style">
+        </div>
+        <div class="login-form">
+            <h1>Welcome to Wrist Style</h1>
+            <form id="loginForm" method="post" action="/login">
+                <label for="email">Email</label>
+                <input name="email" type="email" id="email" placeholder="Enter your email">
+                
+                <label for="password">Password</label>
+                <input name="password" type="password" id="password" placeholder="Enter your password">
+                
+                <button type="submit" class="login-button">Login</button>
+                <div id="errorMessage" style="color:red"></div>
+             
+
+
+                <div class="extra-links">
+                    <a href="#" class="forgot-password">Forgot your password?</a>
+                    <p>Don't have an account? <a href="/signup" class="signup">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const errorMessage = document.getElementById('errorMessage');
+        
+        errorMessage.innerText = '';
+
+        if (!email && !password) {
+            errorMessage.innerText = 'Email and password are not required';
+            return;
+        } else if (!email) {
+            errorMessage.innerText = 'Email is required';
+            return;
+        } else if (!password) {
+            errorMessage.innerText = 'Password is required';
+            return;
+        }
+
+        // jQuery AJAX for form submission
+        $.ajax({
+            url: '/login',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ email, password }),
+            success: function(response) {
+                console.log(response);
+                
+                if(response.success) {
+                    alert(response.message)
+                    window.location.href = '/';
+                }else {
+                    alert(response.message);
+                }
+            },
+            error: function() {
+                alert("an error occured please try again later");
+            }
+        });
+    });
+</script>
 
 <%- include("../partials/user/footer") %>
-
-

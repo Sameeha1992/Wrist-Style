@@ -1,20 +1,28 @@
-const User = require("../models/userSchema");
+const User = require("../../models/userSchema");
 const env = require("dotenv").config();
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-const user_route = require("../routes/userRouter");
+const user_route = require("../../routes/userRouter");
 
 
 //Load Homepage
 const loadLandingPage = async (req, res) => {
   try {
-    // Render the "home" template
-     res.render("home");
+    const user = req.session.user;
+    if(user){
+      const userData = await User.findOne({_id:user._id});
+      res.render("home",{user:userData})
+    } else{
+      return res.render('home')
+    }
+    
   } catch (error) {
-    console.log("Homepage not rendered:", error); // Log the error for debugging
-    res.status(500).send("Server error"); // Send a 500 status if there's an error
+    console.log("Homepage not rendered:", error); 
+    res.status(500).send("Server error"); 
   }
 };
+
+//Home page 
 
 const loadHomepage = async (req, res) => {
   try {
@@ -24,11 +32,13 @@ const loadHomepage = async (req, res) => {
     res.render("home");
     }
   } catch (error) {
-    console.log("Homepage not rendered:", error); // Log the error for debugging
-    res.status(500).send("Server error"); // Send a 500 status if there's an error
+    console.log("Homepage not rendered:", error); 
+    res.status(500).send("Server error"); 
   }
 };
 
+
+//loading pagenot found
 const pageNotFound = async (req, res) => {
   try {
     res.render("pageNotFound");
@@ -37,6 +47,8 @@ const pageNotFound = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+
+//Loading signup page
 
 const loadSignup = async (req, res) => {
   try {
@@ -47,6 +59,8 @@ const loadSignup = async (req, res) => {
   }
 };
 
+
+//Loading login page
 const loadLogin = async(req,res)=> {
   try {
     res.render("login");
@@ -122,6 +136,8 @@ const signup = async (req, res) => {
   }
 };
 
+//Otp functionalities
+
 const getotp = async (req, res) => {
   try {
     return res.status(200).render("verify-otp");
@@ -160,6 +176,8 @@ const verifyOtp = async (req, res) => {
       });
       await saveUserData.save();
       req.session.user = saveUserData._id;
+      console.log(req.session.user)
+      console.log("helloooo")
       res.json({ success: true });
     } else {
       res
@@ -171,6 +189,8 @@ const verifyOtp = async (req, res) => {
     res.status(500).json({ success: false, message: "An error occured" });
   }
 };
+
+//Resend OTP
 
 const resendOtp = async (req, res) => {
   try {
@@ -208,6 +228,41 @@ const resendOtp = async (req, res) => {
   }
 };
 
+      
+//Login functionalities
+
+const login=async(req,res)=>{
+  console.log("login is coming")
+  try {    
+    const {email,password}=req.body;
+    const findUser=await User.findOne({isAdmin:0,email:email});
+    console.log("hiiii data vannoooo?/",findUser);
+    
+    if(!findUser){
+      return res.json({message:"User not found"})
+    }
+    if(findUser.isBlocked){
+      return res.json({message:"User is blocked by the admin"})
+    }
+    const passwordMatch=await bcrypt.compare(password,findUser.password)
+    console.log(passwordMatch);
+    
+    if(!passwordMatch){
+      return res.json({success : false , message : "incoorect email or password"})
+    }
+    
+
+    req.session.user= findUser._id;
+     return res.json({success : true , message:"Login Successful"})
+    console.log(req.session.user)
+
+    
+  } catch (error) {
+    console.log("login error",error);
+   return  res.render({message:"Something went wrong"})
+    
+  }
+}
 
 module.exports = {
   loadHomepage,
@@ -218,5 +273,6 @@ module.exports = {
   getotp,
   verifyOtp,
   resendOtp,
-  loadLogin
+  loadLogin,
+  login
 };

@@ -3,19 +3,20 @@ const usermiddleware = require("../middlewares/auth");
 
 const express = require("express");
 const user_router = express.Router();
-const userController = require("../controllers/userController");
+const userController = require("../controllers/user/userController");
 const passport = require("passport");
 
 user_router.get("/",  userController.loadLandingPage);
 user_router.get("/home",  userController.loadHomepage);
 
 
-user_router.get("/signup", usermiddleware.isLogin,userController.loadSignup);
+user_router.get("/signup",userController.loadSignup);
 user_router.post("/signup", userController.signup);
 
-user_router.get("/login", usermiddleware.isLogin,userController.loadLogin)
+user_router.get("/login",userController.loadLogin)
+user_router.post("/login",userController.login)
 
-user_router.get("/verify-otp", usermiddleware.isLogin, userController.getotp);
+user_router.get("/verify-otp", userController.getotp);
 user_router.post("/verify-otp", userController.verifyOtp);
 user_router.post("/resend-otp", userController.resendOtp);
 
