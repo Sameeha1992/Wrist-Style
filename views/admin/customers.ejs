@@ -48,7 +48,7 @@
     </div>
     
   
-
+<!-- 
   <div class="container mt-3">
     <nav aria-label="Page-navigation">
         <ul class="pagination justify-content mb-20" style="margin-right:200px;">
@@ -60,7 +60,27 @@
                 <%}%>
         </ul>
     </nav>
-  </div>
+  </div> -->
+  
+    <div class="pagination-container">
+        <div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="?page=<%= currentPage - 1 %>">&laquo; Previous</a>
+            <% } %>
+    
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <% if (i === currentPage) { %>
+                    <span class="current-page"><%= i %></span>
+                <% } else { %>
+                    <a href="?page=<%= i %>"><%= i %></a>
+                <% } %>
+            <% } %>
+    
+            <% if (currentPage < totalPages) { %>
+                <a href="?page=<%= currentPage + 1 %>">Next &raquo;</a>
+            <% } %>
+        </div>
+    </div>
   
   <style>
 
@@ -208,32 +228,33 @@
       background-color: #6c7a89;
     }
     
+    .pagination-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
     .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
+        display: inline-block;
     }
-    
-    .page-button {
-      padding: 8px 14px;
-      margin: 0 4px;
-      background-color: white;
-      color: #3498db;
-      border: 1px solid #3498db;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+
+    .pagination a,
+    .pagination .current-page {
+        display: inline-block;
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: 1px solid #ddd;
+        text-decoration: none;
+        color: #3498db;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
     }
-    
-    .page-button:hover {
-      background-color: #3498db;
-      color: white;
+
+    .pagination .current-page {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
     }
-  
-    .page-button.active {
-      background-color: #3498db;
-      color: white;
-    }
+
   </style>
 
         
